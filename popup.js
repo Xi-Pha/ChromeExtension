@@ -30,12 +30,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var PRESCRIPTION_DATE_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lblprescdate"]';
             var DOCTOR_NAME_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocname"]';
             var DOCTOR_FAMILY_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocfamily"]';
+            var NATIONAL_CODE_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_hidNationalcode"]';
             var TABLE_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_grdServiceList_DXMainTable"]';
 
             // read header data
             var _patinet_name = getElementByXpath(PATIENT_NAME_XPATH).innerText + " " + getElementByXpath(PATIENT_FAMILY_XPATH).innerText;
             var _prescription_date = getElementByXpath(PRESCRIPTION_DATE_XPATH).innerText;
             var _doctor_name = getElementByXpath(DOCTOR_NAME_XPATH).innerText + " " + getElementByXpath(DOCTOR_FAMILY_XPATH).innerText;
+            var _national_code = getElementByXpath(NATIONAL_CODE_XPATH).value;
 
             // read main data
             var _records_count = getElementByXpath(TABLE_XPATH).rows.length - 2;
@@ -53,7 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 [
                     _patinet_name,
                     _prescription_date,
-                    _doctor_name
+                    _doctor_name,
+                    _national_code
                 ], data
             ];
         }
@@ -116,27 +119,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var _patient_name_element = new_document.createElement('div');
             var _doctor_name_element = new_document.createElement('div');
             var _prescription_date_element = new_document.createElement('div');
+            var _national_code_element = new_document.createElement('div');
 
             _patient_name_element.innerText = "نام بیمار [" + HEAD_DATA[0] + ']';
             _prescription_date_element.innerText = "تاریخ تجویز [ " + HEAD_DATA[1] + ' ]';
             _doctor_name_element.innerText = "پزشک معالج [ " + HEAD_DATA[2] + ' ]';
+            _national_code_element.innerText = "کد ملی [ " + HEAD_DATA[3] + ' ]';
 
 
             info_inner_element.appendChild(_patient_name_element);
             info_inner_element.appendChild(_doctor_name_element);
             info_inner_element.appendChild(_prescription_date_element);
+            info_inner_element.appendChild(_national_code_element);
 
             if (org == '__SALAMAT__') {
-                var _national_code_element = new_document.createElement('div');
                 var _prescription_code_element = new_document.createElement('div');
 
-                _national_code_element.innerText = "کد ملی [ " + HEAD_DATA[3] + ' ]';
                 _prescription_code_element.innerText = "کد رهگیری [ " + HEAD_DATA[4] + ' ]';
 
                 _prescription_code_element.style.padding = "2px";
-                _national_code_element.style.padding = "2px";
 
-                info_inner_element.appendChild(_national_code_element);
                 info_inner_element.appendChild(_prescription_code_element);
             }
 
@@ -196,6 +198,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             _patient_name_element.style.padding = "2px";
             _doctor_name_element.style.padding = "2px";
             _prescription_date_element.style.padding = "2px";
+            _national_code_element.style.padding = "2px";
 
             info_frame_element.style.padding = "5px";
             info_inner_element.style.direction = 'rtl';
