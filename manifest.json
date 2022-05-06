@@ -1,11 +1,11 @@
 {
-    "name": "Pharma Print v1.0",
+    "name": "Xipha v1.0",
     "description": "Read and convert prescription to 8cm printable document",
     "version": "1.0",
     "manifest_version": 3,
     "action": {
         "default_icon": {
-            "256": "printer.png"
+            "256": "/resources/icons/xipha512.png"
         },
         "default_popup": "popup.html"
     },
