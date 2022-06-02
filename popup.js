@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let apply_button = document.getElementById('apply_btn');
 
+
     apply_button.addEventListener("click", async () => {
         let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -114,6 +115,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var MAIN_DATA = data[1];
 
             var new_document = document.implementation.createHTMLDocument('print');
+            var header_element = new_document.createElement('div');
+            header_element.style.textAlign = 'center';
+            header_element.innerText = 'نسخه‌ی الکترونیک بیمه‌ی سلامت';
+            header_element.style.border = '2px solid black';
+            header_element.style.fontFamily = 'Vazirmatn';
+            header_element.style.fontSize = '18px';
+
             var page_frame_element = new_document.createElement('div');
             var page_inner_element = new_document.createElement('div');
 
@@ -151,7 +159,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             info_frame_element.appendChild(info_inner_element);
 
-            var spacer_element = new_document.createElement('div');
+            var first_spacer_element = new_document.createElement('div');
+            var second_spacer_element = new_document.createElement('div');
             var table_element = new_document.createElement('table');
             var table_body = new_document.createElement('tbody');
 
@@ -212,12 +221,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
             info_inner_element.style.fontFamily = 'Vazirmatn';
             info_frame_element.margin = "5px";
 
-            spacer_element.style.height = "5px";
+            first_spacer_element.style.height = "5px";
+            second_spacer_element.style.height = "5px";
 
             table_element.appendChild(table_body);
 
+            page_inner_element.appendChild(header_element);
+            page_inner_element.appendChild(first_spacer_element);
             page_inner_element.appendChild(info_frame_element);
-            page_inner_element.appendChild(spacer_element);
+            page_inner_element.appendChild(second_spacer_element);
             page_inner_element.appendChild(table_element);
 
             page_frame_element.appendChild(page_inner_element);

@@ -15,6 +15,14 @@
         "activeTab",
         "scripting",
         "tabs",
-        "notifications"
-    ]
+        "notifications",
+        "alarms",
+        "contextMenus"
+    ],
+    "host_permissions": [
+        "*://darman.tamin.ir/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
 }
