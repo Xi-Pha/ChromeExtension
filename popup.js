@@ -115,12 +115,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var MAIN_DATA = data[1];
 
             var new_document = document.implementation.createHTMLDocument('print');
-            var header_element = new_document.createElement('div');
-            header_element.style.textAlign = 'center';
-            header_element.innerText = 'نسخه‌ی الکترونیک بیمه‌ی سلامت';
-            header_element.style.border = '2px solid black';
-            header_element.style.fontFamily = 'Vazirmatn';
-            header_element.style.fontSize = '18px';
+            // var header_element = new_document.createElement('div');
+            // header_element.style.textAlign = 'center';
+            // header_element.innerText = 'نسخه‌ی الکترونیک بیمه‌ی سلامت';
+            // header_element.style.border = '2px solid black';
+            // header_element.style.fontFamily = 'Vazirmatn';
+            // header_element.style.fontSize = '18px';
 
             var page_frame_element = new_document.createElement('div');
             var page_inner_element = new_document.createElement('div');
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             table_element.appendChild(table_body);
 
-            page_inner_element.appendChild(header_element);
+            //page_inner_element.appendChild(header_element);
             page_inner_element.appendChild(first_spacer_element);
             page_inner_element.appendChild(info_frame_element);
             page_inner_element.appendChild(second_spacer_element);
