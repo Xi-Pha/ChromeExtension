@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    var server_ip;
+    var server_port;
+    var domain;
+    chrome.storage.sync.get(['server_address'], function (parm) {
+        server_ip = parm.server_address.ip;
+        server_port = parm.server_address.port;
+        domain = 'http://' + server_ip + ':' + server_port;
+        check();
+    });
 
     console.log('loaded');
     var input_text = document.getElementById('input');
@@ -6,7 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function update() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:5224/local/products?key=' + input_text.value, true);
+        xhr.open('GET', domain + '/local/products?key=' + input_text.value, true);
 
         xhr.onload = function () {
             var status = xhr.status;
@@ -23,7 +32,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     var obj = jsonResponse[i];
                     gtn_cell.innerText = obj[0];
                     name_cell.innerText = obj[1];
-                    
+
                     gtn_cell.style.width = '20%';
                     new_tr.appendChild(gtn_cell);
                     new_tr.appendChild(name_cell);
@@ -40,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function check() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:5224/ping', true);
+        xhr.open('GET', domain + '/ping', true);
 
         let spinner = document.getElementById('spinner');
         let server_message = document.getElementById('server_msg');
@@ -70,6 +79,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
         update();
     });
 
-    check();
 });
 

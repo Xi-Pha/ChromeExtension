@@ -1,10 +1,21 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let apply_button = document.getElementById('apply_btn');
     let database_button = document.getElementById('database_btn');
+    var server_ip;
+    var server_port;
+    var domain;
+
+    chrome.storage.sync.get(['server_address'], function (parm) {
+        server_ip = parm.server_address.ip;
+        server_port = parm.server_address.port;
+        domain = 'http://' + server_ip + ':' + server_port;
+        console.log(domain);
+        check();
+    });
 
     function check() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:5224/ping', true);
+        xhr.open('GET', domain + '/ping', true);
 
         let spinner = document.getElementById('spinner');
         let server_message = document.getElementById('server_msg');
@@ -29,7 +40,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         xhr.send();
     }
 
-    check();
 
     apply_button.addEventListener("click", async () => {
         let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -73,7 +83,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 Id: _doctor_id,
-                Name: _doctor_name +" "+ _doctor_family,
+                Name: _doctor_name + " " + _doctor_family,
                 Spec: _doctor_speciallity
             }));
             xhr.onload = function () {
