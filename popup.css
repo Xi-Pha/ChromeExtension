@@ -1,0 +1,14 @@
+body {
+    direction: rtl;
+    width: 200px;
+    font-family: Vazirmatn;
+    font-size:x-small;
+}
+
+hr {
+    margin: 0px;
+}
+
+.container {
+    padding: 5px;
+}

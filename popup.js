@@ -1,6 +1,35 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let apply_button = document.getElementById('apply_btn');
+    let database_button = document.getElementById('database_btn');
 
+    function check() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:5224/ping', true);
+
+        let spinner = document.getElementById('spinner');
+        let server_message = document.getElementById('server_msg');
+
+        xhr.onload = function () {
+            var status = xhr.status;
+            if (status === 200) {
+                server_message.innerText = "متصل به سرور";
+                spinner.classList.remove("spinner-border");
+                spinner.classList.remove("text-danger");
+                spinner.classList.add("spinner-grow");
+                spinner.classList.add("text-primary");
+
+            } else {
+                server_message.innerText = "در حال یافتن سرور";
+                spinner.classList.add("spinner-border");
+                spinner.classList.add("text-danger");
+                spinner.classList.remove("spinner-grow");
+                spinner.classList.remove("text-primary");
+            }
+        };
+        xhr.send();
+    }
+
+    check();
 
     apply_button.addEventListener("click", async () => {
         let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -9,6 +38,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             target: { tabId: tab.id },
             function: apply_variables,
         });
+    });
+
+    database_button.addEventListener("click", async () => {
+        window.location = "database.html";
     });
 
     function apply_variables() {
@@ -20,6 +53,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         if (window.location.href == SALAMAT_URL) {
             create('__SALAMAT__', salamat());
+        }
+
+        console.log(doctor());
+
+        function doctor() {
+            var DOCTOR_UID_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocid"]';
+            var DOCTOR_FIRST_NAME_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocname"]';
+            var DOCTOR_LAST_NAME_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocfamily"]';
+            var DOCTOR_SPEC_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lblspecdoc"]';
+
+            var _doctor_id = getElementByXpath(DOCTOR_UID_XPATH).innerText;
+            var _doctor_name = getElementByXpath(DOCTOR_FIRST_NAME_XPATH).innerText;
+            var _doctor_family = getElementByXpath(DOCTOR_LAST_NAME_XPATH).innerText;
+            var _doctor_speciallity = getElementByXpath(DOCTOR_SPEC_XPATH).innerText;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'http://localhost:5020/doctor', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                Id: _doctor_id,
+                Name: _doctor_name +" "+ _doctor_family,
+                Spec: _doctor_speciallity
+            }));
+            xhr.onload = function () {
+                var data = JSON.parse(this.responseText);
+                console.log("hi" + data);
+            };
         }
 
         function tamin() {

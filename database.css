@@ -1,0 +1,31 @@
+body {
+    direction: rtl;
+    width: 700px;
+    font-family: Vazirmatn;
+    font-size: x-small;
+    height: 200;
+}
+
+hr {
+    margin: 0px;
+}
+
+.container {
+    direction: ltr;
+    padding: 20px;
+}
+
+thead,
+tbody,
+tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+#drugs_tbody {
+    overflow: auto;
+    max-height: 250px;
+    display: block;
+}

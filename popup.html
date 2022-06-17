@@ -8,20 +8,44 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v32.102/Vazirmatn-Variable-font-face.css"
         rel="stylesheet" type="text/css">
+    <link href="popup.css" rel="stylesheet" type="text/css">
 </head>
 
-<body style="direction: rtl; width: 250px;font-family: Vazirmatn; font-size: small;">
-    <div class="container" style="padding: 10px;">
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div id="ins_type">
+
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12 text-center">
                 <div>
                     جهت پرینت نسخه روی دکمه زیر کلیک کنید
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-12 text-center" style="padding: 10px;">
                 <button type="button" class="btn btn-primary btn-sm" id="apply_btn">پرینت</button>
             </div>
         </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 text-center" style="padding: 10px;">
+                <button type="button" class="btn btn-primary btn-sm" id="database_btn">داروها</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div style="vertical-align: middle; padding-right: 5px;">
+        <div class="spinner-border text-danger" role="status" style="width: 9px; height: 9px;" id="spinner"></div>
+        <span id="server_msg" style="vertical-align: middle;">در حال یافتن سرور</span>
+        <span>
+            <a href="./setting.html" target="_blank">تنظیمات</a>
+        </span>
     </div>
 </body>
 
