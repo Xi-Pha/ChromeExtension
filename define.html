@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="logic/define.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v32.102/Vazirmatn-Variable-font-face.css"
+        rel="stylesheet" type="text/css">
+    <link href="resources/styles/define.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10" id="frame">
+                <!-- inner content -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img src="./resources/icons/xipha.svg" style="width:30%">
+                    </div>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">QR | EAN</span>
+                            </div>
+                            <input type="text" style="width: 30%;" class="form-control" placeholder="0626xxxxxxxx" id="gtn_input">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Default</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="1" id="count_input">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Unit Price</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="0" id="price_input">
+                        </div>
+                    </div>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-primary" id="save_btn">Save</button>
+                    </div>
+                </div>
+                <!-- inner content end -->
+            </div>
+            <div class="col-1"></div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Code</th>
+                                <th scope="col">GTN</th>
+                                <th scope="col">IRC</th>
+                                <th scope="col">Generic code</th>
+                                <th scope="col">En Name</th>
+                                <th scope="col">Fa Name</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Default Count</th>
+                                <th scope="col">Pack Count</th>
+                                <th scope="col">Package Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" contenteditable="true">1</th>
+                                <td contenteditable="true">06260160210518</td>
+                                <td>1602129906809149</td>
+                                <td>4551</td>
+                                <td>AIROKAST (MONTELUKAST) 10 MG TAB - ABIDI</td>
+                                <td>ایروکاست (مونته لوکاست) ۱۰ م گ قرص - عبیدی</td>
+                                <td>3527</td>
+                                <td>10</td>
+                                <td>30</td>
+                                <td>102300</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" contenteditable="true">1</th>
+                                <td contenteditable="true">06260160210518</td>
+                                <td>NULL</td>
+                                <td>NULL</td>
+                                <td>PRODUCT CODE [06260160210518]</td>
+                                <td>کالا کد [06260160210518]</td>
+                                <td>3527</td>
+                                <td>10</td>
+                                <td>30</td>
+                                <td>102300</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
