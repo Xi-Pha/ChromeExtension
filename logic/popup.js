@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let apply_button = document.getElementById('apply_btn');
-    let database_button = document.getElementById('database_btn');
-    let factor_button = document.getElementById('factor');
-    let define_button = document.getElementById('define');
 
     var server_ip;
     var server_port;
@@ -53,17 +50,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    database_button.addEventListener("click", async () => {
-        window.open('database.html','_blank');
-    });
-
-    factor_button.addEventListener("click", async () => {
-        window.open('factor.html','_blank');
-    });
-
-    define_button.addEventListener("click", async () => {
-        window.open('define.html','_blank');
-    });
 
     function apply_variables() {
         var TAMIN_URL = 'https://darman.tamin.ir/Forms/EPresc/EPrescDrugStore.aspx?pagename=hdpEPrescDrugStore';
