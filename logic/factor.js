@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    $('#navigation').load("../navbar.html");
+
     // here is some data for test
     // [distributor , date , factor no , price , tax , off , final]
     var tmp = [

@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     define_button.addEventListener("click", async () => {
         window.open('define.html','_blank');
     });
+
+    $('#navigation').load("../navbar.html");
+
 }); 
 
 

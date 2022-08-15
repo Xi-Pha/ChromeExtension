@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', (event) => {
 
+
+    $('#navigation').load("../navbar.html");
+
     let apply_button = document.getElementById('save_btn');
     let port_input = document.getElementById('port_input');
     let ip_input = document.getElementById('ip_input');

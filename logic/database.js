@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+
+    $('#navigation').load("../navbar.html");
+
     var server_ip;
     var server_port;
     var domain;
