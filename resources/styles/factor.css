@@ -1,6 +1,9 @@
 body {
     direction: rtl;
     font-family: Vazirmatn;
-    font-size: small;
-    height: 200;
+    font-size: x-small;
+}
+
+hr {
+    margin: 0px;
 }

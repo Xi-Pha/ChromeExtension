@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    $('#navigation').load("../navbar.html");
+
     let database_button = document.getElementById('database_btn');
     let factor_button = document.getElementById('factor');
     let define_button = document.getElementById('define');
@@ -15,9 +17,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     define_button.addEventListener("click", async () => {
         window.open('define.html','_blank');
     });
-
-    $('#navigation').load("../navbar.html");
-
+    
 }); 
 
 
