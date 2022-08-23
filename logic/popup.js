@@ -42,51 +42,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     apply_button.addEventListener("click", async () => {
-        let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
+        let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             function: apply_variables,
         });
-    });
 
+    });
 
     function apply_variables() {
         var TAMIN_URL = 'https://darman.tamin.ir/Forms/EPresc/EPrescDrugStore.aspx?pagename=hdpEPrescDrugStore';
-        var SALAMAT_URL = 'https://eservices.ihio.gov.ir/ihioerx/';
+        var SALAMAT_URL = 'https://eservices.ihio.gov.ir/ihioerx/ERXFront.html';
+        //'https://eservices.ihio.gov.ir/ihioerx/';
 
         if (window.location.href == TAMIN_URL) {
             create('__TAMIN__', tamin());
         }
         if (window.location.href == SALAMAT_URL) {
             create('__SALAMAT__', salamat());
-        }
-
-        console.log(doctor());
-
-        function doctor() {
-            var DOCTOR_UID_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocid"]';
-            var DOCTOR_FIRST_NAME_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocname"]';
-            var DOCTOR_LAST_NAME_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lbldocfamily"]';
-            var DOCTOR_SPEC_XPATH = '//*[@id="ctl00_ContentPlaceHolder1_lblspecdoc"]';
-
-            var _doctor_id = getElementByXpath(DOCTOR_UID_XPATH).innerText;
-            var _doctor_name = getElementByXpath(DOCTOR_FIRST_NAME_XPATH).innerText;
-            var _doctor_family = getElementByXpath(DOCTOR_LAST_NAME_XPATH).innerText;
-            var _doctor_speciallity = getElementByXpath(DOCTOR_SPEC_XPATH).innerText;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", 'http://localhost:5020/doctor', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify({
-                Id: _doctor_id,
-                Name: _doctor_name + " " + _doctor_family,
-                Spec: _doctor_speciallity
-            }));
-            xhr.onload = function () {
-                var data = JSON.parse(this.responseText);
-                console.log("hi" + data);
-            };
         }
 
         function tamin() {
@@ -111,15 +85,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             // read main data
             var _records_count = getElementByXpath(TABLE_XPATH).rows.length - 2;
-            var data = Array.from(Array(_records_count), () => new Array(3))
+            var data = Array.from(Array(_records_count), () => new Array(4))
 
             for (var index = 0; index < _records_count; index++) {
+                var _code = getElementByXpath(DRUG_ROW_TEMPLATE_XPATH.replace('{@id}', index.toString()) + '/td[3]').innerText;
                 var _name = getElementByXpath(DRUG_ROW_TEMPLATE_XPATH.replace('{@id}', index.toString()) + '/td[4]').innerText;
                 var _count = getElementByXpath(DRUG_ROW_TEMPLATE_XPATH.replace('{@id}', index.toString()) + '/td[9]').innerText;
                 var _inst = getElementByXpath(DRUG_ROW_TEMPLATE_XPATH.replace('{@id}', index.toString()) + '/td[10]').innerText;
                 data[index][0] = _name;
                 data[index][1] = _count;
                 data[index][2] = _inst;
+                data[index][3] = _code;
             }
             return [
                 [
@@ -134,12 +110,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         function salamat() {
             var BASE_XPATH = '/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/div/div/div[2]/div[2]/table/tbody';
+            var MEDICINE_ROW_XPATH = BASE_XPATH + '/tr[@INDEX]';
+            var MEDICINE_CODE_TEMPLATE_XPATH = BASE_XPATH + '/tr[@INDEX]/td[2]';
             var MEDICINE_NAME_TEMPLATE_XPATH = BASE_XPATH + '/tr[@INDEX]/td[3]/span';
             var MEDICINE_COUNT_TEMPLATE_XPATH = BASE_XPATH + '/tr[@INDEX]/td[4]';
             var MEDICINE_INSTRUCTION_TEMPLATE_XPATH = BASE_XPATH + '/tr[@INDEX]/td[6]/span';
             var MEDICINE_SPECIAL_INSTRUCTION_TEMPLATE_XPATH = BASE_XPATH + '/tr[@INDEX]/td[1]/table/tbody/tr/td[2]/button'
-
-
+            
             var _patient_name = getElementByXpath('/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/div/div/div[1]/span[2]').innerHTML.replace('شما در حال ارائه خدمات برای', ' ').replace('هستید.', ' ');
             var _national_code = getElementByXpath('//*[@id="tbNationalNumber"]').value;
             var _prescription_code = getElementByXpath('//*[@id="tbTrackingCode"]').value;
@@ -148,9 +125,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             var _records_count = getElementByXpath('/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/div/div/div[2]/div[2]/table').rows.length - 1;
 
-            var data = Array.from(Array(_records_count), () => new Array(3))
+
+            var data = Array.from(Array(_records_count), () => new Array(4))
 
             for (var index = 0; index < _records_count; index++) {
+                
+                var _gcode = getElementByXpath(MEDICINE_ROW_XPATH.replace('@INDEX', (index + 1).toString())).getAttribute('genericcode');
+                //var _code = getElementByXpath(MEDICINE_CODE_TEMPLATE_XPATH.replace('@INDEX', (index + 1).toString())).innerHTML;
                 var _name = getElementByXpath(MEDICINE_NAME_TEMPLATE_XPATH.replace('@INDEX', (index + 1).toString())).innerHTML;
                 var _count = getElementByXpath(MEDICINE_COUNT_TEMPLATE_XPATH.replace('@INDEX', (index + 1).toString())).innerHTML;
                 var _inst = getElementByXpath(MEDICINE_INSTRUCTION_TEMPLATE_XPATH.replace('@INDEX', (index + 1).toString())).innerHTML;
@@ -162,6 +143,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 data[index][0] = _name;
                 data[index][1] = _count;
                 data[index][2] = _inst;
+                data[index][3] = _gcode;
             }
 
             return [
@@ -182,12 +164,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var MAIN_DATA = data[1];
 
             var new_document = document.implementation.createHTMLDocument('print');
-            // var header_element = new_document.createElement('div');
-            // header_element.style.textAlign = 'center';
-            // header_element.innerText = 'نسخه‌ی الکترونیک بیمه‌ی سلامت';
-            // header_element.style.border = '2px solid black';
-            // header_element.style.fontFamily = 'Vazirmatn';
-            // header_element.style.fontSize = '18px';
 
             var page_frame_element = new_document.createElement('div');
             var page_inner_element = new_document.createElement('div');
@@ -237,26 +213,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 var tr = new_document.createElement('tr');
 
+                var _code_cell = new_document.createElement('td');
                 var _name_cell = new_document.createElement('td');
                 var _count_cell = new_document.createElement('td');
                 var _inst_cell = new_document.createElement('td');
 
+                _code_cell.appendChild(new_document.createTextNode(MAIN_DATA[i][3]));
                 _name_cell.appendChild(new_document.createTextNode(MAIN_DATA[i][0]));
                 _count_cell.appendChild(new_document.createTextNode(MAIN_DATA[i][1]));
                 _inst_cell.appendChild(new_document.createTextNode(MAIN_DATA[i][2]));
 
+                _code_cell.style.border = "1px solid black";
                 _name_cell.style.border = "1px solid black";
                 _count_cell.style.border = "1px solid black";
                 _inst_cell.style.border = "1px solid black";
 
+                _code_cell.style.borderCollapse = "collapse";
                 _name_cell.style.borderCollapse = "collapse";
                 _count_cell.style.borderCollapse = "collapse";
                 _inst_cell.style.borderCollapse = "collapse";
 
+                _code_cell.style.padding = "5px";
                 _name_cell.style.padding = "5px";
                 _count_cell.style.padding = "5px";
                 _inst_cell.style.padding = "5px";
 
+                _code_cell.style.borderWidth = "2px";
                 _name_cell.style.borderWidth = "2px";
                 _count_cell.style.borderWidth = "2px";
                 _inst_cell.style.borderWidth = "2px";
@@ -268,6 +250,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 tr.style.padding = "5px";
 
 
+                tr.appendChild(_code_cell);
                 tr.appendChild(_name_cell);
                 tr.appendChild(_count_cell);
                 tr.appendChild(_inst_cell);
@@ -314,8 +297,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             page_frame_element.style.width = "8cm";
             page_frame_element.style.boxSizing = "border-box";
             table_element.style.borderCollapse = "collapse";
-            page_frame_element.style.fontSize = "12px";
-            table_body.style.fontSize = "12px";
+            page_frame_element.style.fontSize = "10px";
+            table_body.style.fontSize = "10px";
             page_inner_element.style.padding = "5px";
             info_frame_element.style.border = "2px solid black";
 
