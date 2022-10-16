@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function apply_variables() {
         var TAMIN_URL = 'https://darman.tamin.ir/Forms/EPresc/EPrescDrugStore.aspx?pagename=hdpEPrescDrugStore';
-        var SALAMAT_URL = 'https://eservices.ihio.gov.ir/ihioerx/ERXFront.html';
-        //'https://eservices.ihio.gov.ir/ihioerx/';
+        var SALAMAT_URL = 'https://eservices.ihio.gov.ir/ihioerx/';
 
+        console.log('func');
         if (window.location.href == TAMIN_URL) {
             create('__TAMIN__', tamin());
         }
@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
             var data = Array.from(Array(_records_count), () => new Array(4))
-
             for (var index = 0; index < _records_count; index++) {
                 
                 var _gcode = getElementByXpath(MEDICINE_ROW_XPATH.replace('@INDEX', (index + 1).toString())).getAttribute('genericcode');
@@ -297,8 +296,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             page_frame_element.style.width = "8cm";
             page_frame_element.style.boxSizing = "border-box";
             table_element.style.borderCollapse = "collapse";
-            page_frame_element.style.fontSize = "10px";
-            table_body.style.fontSize = "10px";
+            page_frame_element.style.fontSize = "12px";
+            table_body.style.fontSize = "12px";
             page_inner_element.style.padding = "5px";
             info_frame_element.style.border = "2px solid black";
 
